@@ -93,7 +93,7 @@
       </a>
     </td>
     <td>
-  <a href="{{ route('admin.weekly.tasks', $project->id) }}" class="btn btn-sm btn-outline-success">
+  <a href="{{ route('admin.project.weekly.tasks', $project->id) }}" class="btn btn-sm btn-outline-success">
   <i class="bi bi-list-task"></i> Tugas
 </a>
 </td>
