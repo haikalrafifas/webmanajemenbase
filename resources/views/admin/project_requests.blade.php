@@ -38,10 +38,13 @@
             <span class="badge bg-warning text-dark">{{ ucfirst($request->status) }}</span>
           </td>
           <td>
-            <form action="{{ route('admin.project.request.accept', $request->id) }}" method="POST" class="d-inline">
+            <form action="{{ route('admin.project.request.accept', ['id' => $request->id]) }}" method="POST" class="d-inline">
               @csrf
+              <input type="hidden" name="project_id" value="{{ $request->project_id }}">
+              <input type="hidden" name="user_id" value="{{ $request->user_id }}">
               <button class="btn btn-sm btn-success">Terima</button>
             </form>
+
             <form action="{{ route('admin.project.request.reject', $request->id) }}" method="POST" class="d-inline">
               @csrf
               <button class="btn btn-sm btn-danger">Tolak</button>

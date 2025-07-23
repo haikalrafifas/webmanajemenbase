@@ -107,9 +107,13 @@ public function showRequests()
     return view('admin.project_requests', compact('requests'));
 }
 
-public function acceptRequest($id)
+public function acceptRequest(Request $request, $id)
 {
     DB::table('project_requests')->where('id', $id)->update(['status' => 'accepted']);
+    DB::table('project_user')->insert([
+        'project_id' => $request->project_id,
+        'user_id' => $request->user_id
+    ]);
     return back()->with('success', 'Permintaan diterima.');
 }
 
