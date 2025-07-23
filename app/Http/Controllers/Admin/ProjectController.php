@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Project;
+use App\Models\ProjectUser;
 use App\Models\ProjectSubmission;
 use App\Models\ProjectWeeklyTask;
 use Carbon\Carbon;
@@ -126,7 +127,8 @@ public function rejectRequest($id)
 public function weeklyTasks($id)
 {
     $project = Project::with('weeklyTasks')->findOrFail($id);
-    return view('admin.project.weekly_tasks', compact('project'));
+    $project_user = ProjectUser::with('user')->where('project_id', $id)->get();
+    return view('admin.project.weekly_tasks', compact('project', 'project_user'));
 }
 
 public function storeWeeklyTask(Request $request, $id)
