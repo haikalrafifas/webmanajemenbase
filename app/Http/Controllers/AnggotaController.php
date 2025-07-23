@@ -16,43 +16,43 @@ use Carbon\Carbon;
 
 class AnggotaController extends Controller
 {
-  public function statistics()
-{
-    $now = Carbon::now();
+//   public function statistics()
+// {
+//     $now = Carbon::now();
 
-    // Leaderboard Sepanjang Masa
-    $leaderboardAllTime = Activity::selectRaw('user_id, SUM(score) as total_score')
-        ->groupBy('user_id')
-        ->with('user')
-        ->orderByDesc('total_score')
-        ->get();
+//     // Leaderboard Sepanjang Masa
+//     $leaderboardAllTime = Activity::selectRaw('user_id, SUM(score) as total_score')
+//         ->groupBy('user_id')
+//         ->with('user')
+//         ->orderByDesc('total_score')
+//         ->get();
 
-    // Leaderboard Bulan Ini
-    $leaderboardThisMonth = Activity::whereMonth('week_start_date', $now->month)
-        ->whereYear('week_start_date', $now->year)
-        ->selectRaw('user_id, SUM(score) as total_score')
-        ->groupBy('user_id')
-        ->with('user')
-        ->orderByDesc('total_score')
-        ->get();
+//     // Leaderboard Bulan Ini
+//     $leaderboardThisMonth = Activity::whereMonth('week_start_date', $now->month)
+//         ->whereYear('week_start_date', $now->year)
+//         ->selectRaw('user_id, SUM(score) as total_score')
+//         ->groupBy('user_id')
+//         ->with('user')
+//         ->orderByDesc('total_score')
+//         ->get();
 
-    // Leaderboard Minggu Ini
-    $startOfWeek = $now->copy()->startOfWeek(Carbon::MONDAY); // Mulai dari Senin
-    $endOfWeek = $now->copy()->endOfWeek(Carbon::SUNDAY);     // Sampai Minggu
+//     // Leaderboard Minggu Ini
+//     $startOfWeek = $now->copy()->startOfWeek(Carbon::MONDAY); // Mulai dari Senin
+//     $endOfWeek = $now->copy()->endOfWeek(Carbon::SUNDAY);     // Sampai Minggu
 
-    $leaderboardThisWeek = Activity::whereBetween('week_start_date', [$startOfWeek, $endOfWeek])
-        ->selectRaw('user_id, SUM(score) as total_score')
-        ->groupBy('user_id')
-        ->with('user')
-        ->orderByDesc('total_score')
-        ->get();
+//     $leaderboardThisWeek = Activity::whereBetween('week_start_date', [$startOfWeek, $endOfWeek])
+//         ->selectRaw('user_id, SUM(score) as total_score')
+//         ->groupBy('user_id')
+//         ->with('user')
+//         ->orderByDesc('total_score')
+//         ->get();
 
-    return view('anggota.statistics', compact(
-        'leaderboardAllTime',
-        'leaderboardThisMonth',
-        'leaderboardThisWeek'
-    ));
-}
+//     return view('anggota.statistics', compact(
+//         'leaderboardAllTime',
+//         'leaderboardThisMonth',
+//         'leaderboardThisWeek'
+//     ));
+// }
     public function detail($id)
 {
     $project = Project::findOrFail($id); // Ambil 1 proyek berdasarkan id
@@ -141,7 +141,6 @@ public function baseprojects()
 
         // Isi nilai statusnya (pending / accepted / rejected / null)
         $project->requested = $request ? $request->status : null;
-
         return $project;
     });
 

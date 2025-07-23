@@ -18,10 +18,10 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link active" href="/anggota">Dashboard</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('anggota.statistics') }}">Statistics</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('anggota.baseprojects') }}">Base Project</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('anggota.campusproject') }}">Campus Project</a></li>
+        <li class="nav-item"><a class="nav-link active" href="/admin">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('admin.statistics') }}">Statistics</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('admin.baseproject') }}">Base Project</a></li>
+        {{-- <li class="nav-item"><a class="nav-link" href="{{ route('admin.campusproject') }}">Campus Project</a></li> --}}
         <li class="nav-item"><a class="nav-link" href="{{ route('member.activity') }}">My Activity</a></li>
       </ul>
       <ul class="navbar-nav ms-3">

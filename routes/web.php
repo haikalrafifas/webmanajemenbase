@@ -79,7 +79,7 @@ Route::get('/admin/statistics', [AdminStatisticsController::class, 'index'])->na
 
 // Anggota Base Dashboard
 Route::get('/anggota', [AnggotaController::class, 'index'])->name('anggota.index');
-Route::get('/statistics', [AnggotaController::class, 'statistics'])->name('anggota.statistics');
+// Route::get('/statistics', [AnggotaController::class, 'statistics'])->name('anggota.statistics');
 Route::get('/baseprojects', [AnggotaController::class, 'baseprojects'])->name('anggota.baseprojects');
 Route::get('/campusproject', [AnggotaController::class, 'campusproject'])->name('anggota.campusproject');
 Route::get('/anggota/detail/{id}', [AnggotaController::class, 'detail'])->name('anggota.project.detail');

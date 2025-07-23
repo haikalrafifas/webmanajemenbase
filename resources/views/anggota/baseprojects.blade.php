@@ -61,72 +61,119 @@
 
 <!-- Content -->
 <div class="container mt-5">
-  <h4 class="mb-4">Daftar Proyek Base</h4>
 
+  @php
+    $requestedProjects = $projects->filter(fn($p) => in_array($p->requested, ['pending', 'accepted']));
+    $availableProjects = $projects->filter(fn($p) => $p->requested === null);
+  @endphp
+
+  <!-- Tabel: Proyek yang Sudah Didaftar -->
+  <h4 class="mb-3">Proyek yang Sudah Didaftar</h4>
+  <div class="table-responsive mb-5">
+    <table class="table table-bordered align-middle">
+      <thead class="table-light text-center">
+        <tr>
+          <th>No</th>
+          <th>Nama Project</th>
+          <th>PIC</th>
+          <th>Fokus</th>
+          <th>Skema</th>
+          <th>Tahun</th>
+          <th>Komentar Admin</th>
+          <th>Status</th>
+          <th>Detail</th>
+        </tr>
+      </thead>
+      <tbody>
+        @forelse ($requestedProjects as $index => $project)
+          <tr class="text-center">
+            <td>{{ $index + 1 }}</td>
+            <td class="text-start">{{ $project->nama_project }}</td>
+            <td>{{ $project->pic }}</td>
+            <td>{{ $project->fokus }}</td>
+            <td>{{ $project->skema }}</td>
+            <td>{{ $project->tahun }}</td>
+            <td class="text-start">
+              <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#komentarModal{{ $project->id }}">
+                Lihat Komentar
+              </button>
+            </td>
+            <td>
+              @if ($project->requested === 'pending')
+                <span class="badge bg-secondary">Menunggu</span>
+              @else
+                <button class="btn btn-sm btn-success">Sudah Bergabung</button>
+              @endif
+            </td>
+            <td>
+              <a href="{{ route('anggota.project.detail', $project->id) }}" class="btn btn-sm btn-outline-info">
+                <i class="bi bi-eye"></i> Detail
+              </a>
+            </td>
+          </tr>
+        @empty
+          <tr>
+            <td colspan="8" class="text-center text-muted">Belum ada proyek yang Anda daftarkan.</td>
+          </tr>
+        @endforelse
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Tabel: Proyek yang Masih Tersedia -->
+  <h4 class="mb-3">Proyek yang Tersedia</h4>
   <div class="table-responsive">
     <table class="table table-bordered align-middle">
       <thead class="table-light text-center">
-       <tr>
-  <th>No</th>
-  <th>Nama Project</th>
-  <th>PIC</th>
-  <th>Fokus</th>
-  <th>Skema</th>
-  <th>Tahun</th>
-  <th>Komentar Admin</th>
-  <th>Request Join</th> <!-- Baru -->
-  <th>Detail</th>
-</tr>
-
+        <tr>
+          <th>No</th>
+          <th>Nama Project</th>
+          <th>PIC</th>
+          <th>Fokus</th>
+          <th>Skema</th>
+          <th>Tahun</th>
+          <th>Komentar Admin</th>
+          <th>Request Join</th>
+          <th>Detail</th>
+        </tr>
       </thead>
-    <tbody>
-  @forelse ($projects as $index => $project)
- <tr class="text-center">
-  <td>{{ $index + 1 }}</td>
-  <td class="text-start">{{ $project->nama_project }}</td>
-  <td>{{ $project->pic }}</td>
-  <td>{{ $project->fokus }}</td>
-  <td>{{ $project->skema }}</td>
-  <td>{{ $project->tahun }}</td>
-  <td class="text-start">
-    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#komentarModal{{ $project->id }}">
-      Lihat Komentar
-    </button>
-  </td>
-
-  {{-- Kolom untuk tombol request --}}
-  <td>
-  @if ($project->requested === 'pending')
-    <button class="btn btn-sm btn-secondary" disabled>Menunggu Persetujuan</button>
-  @elseif ($project->requested === 'accepted')
-    <button class="btn btn-sm btn-success" disabled>Sudah Bergabung</button>
-  @else
-    <form action="{{ route('anggota.project.request', $project->id) }}" method="POST">
-      @csrf
-      <button type="submit" class="btn btn-sm btn-primary">
-        <i class="bi bi-person-plus"></i> Request Join
-      </button>
-    </form>
-  @endif
-</td>
-
-
-
-  {{-- Kolom detail --}}
-  <td>
-    <a href="{{ route('anggota.project.detail', $project->id) }}" class="btn btn-sm btn-outline-info">
-      <i class="bi bi-eye"></i> Detail
-    </a>
-  </td>
-</tr>
-
-  @empty
-  <tr>
-    <td colspan="8" class="text-center text-muted">Belum ada proyek yang tersedia.</td>
-  </tr>
-  @endforelse
-</tbody>
-
+      <tbody>
+        @forelse ($availableProjects as $index => $project)
+          <tr class="text-center">
+            <td>{{ $index + 1 }}</td>
+            <td class="text-start">{{ $project->nama_project }}</td>
+            <td>{{ $project->pic }}</td>
+            <td>{{ $project->fokus }}</td>
+            <td>{{ $project->skema }}</td>
+            <td>{{ $project->tahun }}</td>
+            <td class="text-start">
+              <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#komentarModal{{ $project->id }}">
+                Lihat Komentar
+              </button>
+            </td>
+            <td>
+              <form action="{{ route('anggota.project.request', $project->id) }}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-sm btn-primary">
+                  <i class="bi bi-person-plus"></i> Request Join
+                </button>
+              </form>
+            </td>
+            <td>
+              <a href="{{ route('anggota.project.detail', $project->id) }}" class="btn btn-sm btn-outline-info">
+                <i class="bi bi-eye"></i> Detail
+              </a>
+            </td>
+          </tr>
+        @empty
+          <tr>
+            <td colspan="9" class="text-center text-muted">Tidak ada proyek yang tersedia.</td>
+          </tr>
+        @endforelse
+      </tbody>
+    </table>
+  </div>
+</div>
 
 @foreach ($projects as $project)
 <div class="modal fade" id="komentarModal{{ $project->id }}" tabindex="-1" aria-labelledby="komentarModalLabel{{ $project->id }}" aria-hidden="true">
