@@ -13,45 +13,7 @@
 <body>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg bg-light shadow-sm">
-  <div class="container">
-    <a class="navbar-brand fw-bold" href="#">Base Engineering Indonesia</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="/anggota">Dashboard</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('anggota.statistics') }}">Statistics</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('anggota.baseprojects') }}">Base Project</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('anggota.campusproject') }}">Campus Project</a></li>
-        <li class="nav-item"><a class="nav-link active" href="{{ route('member.activity') }}">My Activity</a></li>
-      </ul>
-
-      <ul class="navbar-nav ms-3">
-        <li class="nav-item">
-          <a class="nav-link position-relative" href="#"><i class="bi bi-bell fs-5"></i></a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-            <img src="https://via.placeholder.com/30" class="rounded-circle me-1" width="30" height="30">
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#">Edit Profile</a></li>
-            <li><a class="dropdown-item" href="#">Change Password</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li>
-              <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="dropdown-item text-danger">Logout</button>
-              </form>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+@include('anggota.partials.navbar')
 
 <!-- Main Content -->
 <div class="container mt-5">
