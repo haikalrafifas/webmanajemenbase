@@ -100,12 +100,12 @@
 <div class="modal fade" id="modalTambahProyek" tabindex="-1" aria-labelledby="modalTambahProyekLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <form action="{{ route('admin.projects.store') }}" method="POST" class="modal-content">
-  @csrf
-  <div class="modal-header">
-    <h5 class="modal-title" id="modalTambahProyekLabel">Tambah Proyek Baru</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-  </div>
-  <div class="modal-body">
+      @csrf
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTambahProyekLabel">Tambah Proyek Baru</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
         <div class="row g-3">
           <div class="col-md-6">
             <label for="namaProject" class="form-label">Nama Project</label>
@@ -128,8 +128,12 @@
             </select>
           </div>
           <div class="col-md-6">
-            <label for="deadline" class="form-label">Deadline</label>
-            <input type="date" class="form-control" id="deadline" name="deadline">
+            <label for="start_date" class="form-label">Tanggal Mulai</label>
+            <input type="date" class="form-control" id="start_date" name="start_date" required>
+          </div>
+          <div class="col-md-6">
+            <label for="end_date" class="form-label">Tanggal Selesai</label>
+            <input type="date" class="form-control" id="end_date" name="end_date" required>
           </div>
           <div class="col-md-6">
             <label for="tahun" class="form-label">Tahun</label>
@@ -141,11 +145,11 @@
           </div>
         </div>
       </div>
- <div class="modal-footer">
-    <button type="submit" class="btn btn-primary">
-      <i class="bi bi-save"></i> Simpan Proyek
-    </button>
-  </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">
+          <i class="bi bi-save"></i> Simpan Proyek
+        </button>
+      </div>
     </form>
   </div>
 </div>

@@ -64,6 +64,8 @@ Route::post('/admin/activity-report/update', [MyActivityController::class, 'upda
 
 Route::get('/admin/project/{id}/weekly-tasks', [ProjectController::class, 'weeklyTasks'])->name('admin.project.weekly.tasks');
 Route::post('/admin/project/{id}/weekly-tasks', [ProjectController::class, 'storeWeeklyTask'])->name('admin.project.weekly.tasks.store');
+Route::get('/admin/project/{id}/weekly-tasks/user_task', [ProjectController::class, 'userTask'])->name('admin.project.weekly.tasks.user_task');
+Route::post('/assign-task', [ProjectController::class, 'assignTask'])->name('assign.task');
 
 // Admin routes
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
@@ -108,5 +110,6 @@ Route::post('/anggota/project/{id}/request', [AnggotaController::class, 'request
 
 Route::get('/anggota/project/{id}/weekly-tasks', [AnggotaController::class, 'showWeeklyTasks'])->name('anggota.weekly.tasks');
 Route::post('/anggota/weekly-tasks/{task_id}/submit', [AnggotaController::class, 'submitWeeklyTask'])->name('anggota.weekly.tasks.submit');
+Route::get('/anggota/project/{id}/user-tasks', [AnggotaController::class, 'showUserTasks'])->name('anggota.user.tasks');
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

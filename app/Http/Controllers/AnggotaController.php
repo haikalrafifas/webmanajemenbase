@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Project;
+use App\Models\ProjectWeeklyTask;
 use App\Models\ProjectSubmission;
 use Carbon\Carbon;
 
@@ -106,16 +107,16 @@ $projects = Project::all(); // atau filter sesuai kebutuhan
 
 // Tambahkan bagian ini:
     $now = Carbon::now();
-    $taskProjects = Project::whereDate('deadline', '>=', $now->startOfMonth())
-        ->orderBy('deadline')
+    $taskProjects = Project::whereDate('end_date', '>=', $now->startOfMonth())
+        ->orderBy('end_date')
         ->limit(3)
         ->get();
 
     // Jika < 3, tambahkan lagi dari yang lain
     if ($taskProjects->count() < 3) {
-        $additional = Project::whereDate('deadline', '>', $now)
+        $additional = Project::whereDate('end_date', '>', $now)
             ->whereNotIn('id', $taskProjects->pluck('id'))
-            ->orderBy('deadline')
+            ->orderBy('end_date')
             ->limit(3 - $taskProjects->count())
             ->get();
 
@@ -253,7 +254,17 @@ public function submitWeeklyTask($task_id)
 }
 
 
+public function showUserTasks($projectId)
+{
+    $userId = auth()->id();
+    
+    $weeklyTasks = ProjectWeeklyTask::where('project_id', $projectId)
+        ->where('assigned_to', $userId)
+        ->orderBy('week_number')
+        ->get();
 
+    return view('anggota.user_tasks', compact('weeklyTasks'));
+}
 
 
 }
