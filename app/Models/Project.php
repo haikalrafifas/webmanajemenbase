@@ -24,6 +24,11 @@ class Project extends Model
         'output',
     ];
 
+    protected $casts = [
+        'start_date' => 'date',
+        'end_date'   => 'date',
+    ];
+
      // Relasi: satu project memiliki banyak weekly task
     public function weeklyTasks()
     {

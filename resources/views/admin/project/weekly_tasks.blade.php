@@ -38,8 +38,23 @@
                 <div class="card">
                     <div class="card-header">Detail Proyek</div>
                     <div class="card-body">
-                        <p><strong>Nama Proyek:</strong> {{ $project->nama_project }}</p>
-                        <p><strong>Deskripsi:</strong> {{ $project->deskripsi ?? '-' }}</p>
+                        <p><strong>Nama Proyek:</strong> {{ $project->nama_project ?? '-' }}</p>
+                        <p><strong>PIC:</strong> {{ $project->pic ?? '-' }}</p>
+                        <p><strong>Fokus:</strong> {{ $project->fokus ?? '-' }}</p>
+                        <p><strong>Skema:</strong> {{ $project->skema ?? '-' }}</p>
+                        <p><strong>Tahun Pelaksanaan:</strong> {{ $project->tahun ?? '-' }}</p>
+                        <p><strong>Tanggal Dimulai:</strong> {{ $project->start_date->format('d M Y') ?? '-' }}</p>
+                        <p><strong>Deadline:</strong> {{ $project->end_date->format('d M Y') ?? '-' }}</p>
+                        <p>
+                            <strong>Status:</strong>
+                            @if($project->status == 'Berjalan')
+                                <span class="badge bg-success">Berjalan</span>
+                            @elseif($project->status == 'Selesai')
+                                <span class="badge bg-secondary">Selesai</span>
+                            @else
+                                <span class="badge bg-warning text-dark">Belum Dimulai</span>
+                            @endif
+                        </p>
                         <p><strong>Dibuat pada:</strong> {{ $project->created_at->format('d M Y') }}</p>
                         <p><strong>Update terakhir:</strong> {{ $project->updated_at->diffForHumans() }}</p>
                     </div>
@@ -49,7 +64,8 @@
             <!-- Tugas Mingguan -->
             <div class="tab-pane fade" id="task" role="tabpanel">
                 <!-- Tombol Add -->
-                <div class="d-flex justify-content-end mb-3 mt-3">
+                <div class="d-flex justify-content-between mb-3 mt-3">
+                    <h3>Tugas Mingguan</h3>
                     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addTaskModal">
                         <i class="bi bi-plus-circle"></i> Tambah Tugas Mingguan
                     </button>
@@ -98,39 +114,34 @@
                 </div>
 
                 <!-- Tabel tugas yang sudah ada -->
-                <div class="card mb-4">
-                    <div class="card-header">Tugas Mingguan Tersimpan</div>
-                    <div class="card-body table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Tugas</th>
-                                    <th>Tanggal Dimulai</th>
-                                    <th>Tanggal Selesai</th>
-                                    <th>Deskripsi</th>
-                                    <th>Dibuat</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($project->weeklyTasks as $i => $task)
-                                <tr>
-                                    <td>{{ $i + 1 }}</td>
-                                    <td>{{ $task->task_description }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($task->week_start_date)->translatedFormat('d F Y') }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($task->week_end_date)->translatedFormat('d F Y') }}</td>
-                                    <td>{{ $task->task_description }}</td>
-                                    <td>{{ $task->created_at->diffForHumans() }}</td>
-                                </tr>
-                                @empty
-                                <tr>
-                                    <td colspan="4" class="text-center text-muted">Belum ada tugas mingguan.</td>
-                                </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Tugas</th>
+                            <th>Tanggal Dimulai</th>
+                            <th>Tanggal Selesai</th>
+                            <th>Deskripsi</th>
+                            <th>Dibuat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($project->weeklyTasks as $i => $task)
+                        <tr>
+                            <td>{{ $i + 1 }}</td>
+                            <td>{{ $task->task_description }}</td>
+                            <td>{{ \Carbon\Carbon::parse($task->week_start_date)->translatedFormat('d F Y') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($task->week_end_date)->translatedFormat('d F Y') }}</td>
+                            <td>{{ $task->task_description }}</td>
+                            <td>{{ $task->created_at->diffForHumans() }}</td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">Belum ada tugas mingguan.</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
 
             <!-- Anggota Proyek -->
