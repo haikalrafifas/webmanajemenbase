@@ -1,4 +1,5 @@
-FROM php:8.1-fpm-alpine
+# FROM php:8.1-fpm-alpine
+FROM php:7.4-fpm-alpine
 
 WORKDIR /var/www
 
@@ -21,6 +22,8 @@ RUN apk add --no-cache \
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 COPY --chown=www-data:www-data . .
+
+RUN git config --global --add safe.directory /var/www
 
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
