@@ -78,7 +78,7 @@ jobs:
           mv .env .env.remote && cp .env.example .env && echo >> .env && cat .env.remote >> .env && rm .env.remote
 
           # Re-run container (clean)
-          docker-compose -p ${{ secrets.DOCKER_PROJECT_ID }}-prod up -d --force-recreate --pull always
+          docker compose -p ${{ secrets.DOCKER_PROJECT_ID }}-prod up -d --force-recreate --pull always
           docker system prune -af
 
   run_migrations:
@@ -99,8 +99,8 @@ jobs:
             cd /opt/${{ secrets.DOCKER_PROJECT_ID }}/production
 
             # Re-cache app configuration
-            docker-compose -p ${{ secrets.DOCKER_PROJECT_ID }}-prod exec app php artisan config:clear
-            docker-compose -p ${{ secrets.DOCKER_PROJECT_ID }}-prod exec app php artisan config:cache
+            docker compose -p ${{ secrets.DOCKER_PROJECT_ID }}-prod exec app php artisan config:clear
+            docker compose -p ${{ secrets.DOCKER_PROJECT_ID }}-prod exec app php artisan config:cache
 
             # Database migration
-            docker-compose -p ${{ secrets.DOCKER_PROJECT_ID }}-prod exec app php artisan migrate --force
+            docker compose -p ${{ secrets.DOCKER_PROJECT_ID }}-prod exec app php artisan migrate --force
